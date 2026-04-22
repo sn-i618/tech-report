@@ -22,7 +22,7 @@ jobs:
         run: pip install feedparser
 
       - name: Fetch articles
-        run: python fetch.py
+        run: python main.py
 
       - name: Commit and push
         run: |
