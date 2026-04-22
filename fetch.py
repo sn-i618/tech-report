@@ -1,18 +1,30 @@
 import feedparser
-import json
-import os
+import re
+import html as html_module
 from datetime import datetime, timezone
 from pathlib import Path
 
 FEEDS = [
-    {"name": "Hacker News", "url": "https://news.ycombinator.com/rss"},
     {"name": "Zenn", "url": "https://zenn.dev/feed"},
     {"name": "Qiita", "url": "https://qiita.com/popular-items/feed"},
-    {"name": "dev.to", "url": "https://dev.to/feed"},
-    {"name": "The Verge Tech", "url": "https://www.theverge.com/tech/rss/index.xml"},
+    {"name": "はてなブックマーク", "url": "https://b.hatena.ne.jp/hotentry/it.rss"},
+    {"name": "gihyo.jp", "url": "https://gihyo.jp/feed/rss2"},
+    {"name": "ITmedia", "url": "https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml"},
 ]
 
 ARTICLES_PER_FEED = 20
+
+SOURCE_COLORS = {
+    "Zenn":         {"bg": "#e8f5e9", "text": "#2e7d32"},
+    "Qiita":        {"bg": "#e8f5e9", "text": "#55c500"},
+    "はてなブックマーク": {"bg": "#fff3e0", "text": "#e65100"},
+    "gihyo.jp":     {"bg": "#e3f2fd", "text": "#1565c0"},
+    "ITmedia":      {"bg": "#fce4ec", "text": "#c62828"},
+}
+
+
+def strip_tags(text):
+    return re.sub(r"<[^>]+>", "", text or "").strip()
 
 
 def fetch_articles():
@@ -24,19 +36,21 @@ def fetch_articles():
                 published = entry.get("published_parsed") or entry.get("updated_parsed")
                 if published:
                     dt = datetime(*published[:6], tzinfo=timezone.utc)
-                    date_str = dt.strftime("%Y-%m-%d %H:%M")
+                    date_str = dt.strftime("%Y年%-m月%-d日")
                     timestamp = dt.timestamp()
                 else:
                     date_str = ""
                     timestamp = 0
 
+                summary = strip_tags(entry.get("summary", ""))[:120]
+
                 articles.append({
-                    "title": entry.get("title", "No title"),
-                    "url": entry.get("link", ""),
+                    "title": html_module.escape(strip_tags(entry.get("title", "タイトルなし"))),
+                    "url": html_module.escape(entry.get("link", "")),
                     "source": feed_info["name"],
                     "date": date_str,
                     "timestamp": timestamp,
-                    "summary": entry.get("summary", "")[:200],
+                    "summary": html_module.escape(summary),
                 })
         except Exception as e:
             print(f"Error fetching {feed_info['name']}: {e}")
@@ -46,25 +60,31 @@ def fetch_articles():
 
 
 def generate_html(articles):
-    updated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    jst_offset = 9 * 3600
+    updated_at = datetime.fromtimestamp(
+        datetime.now(timezone.utc).timestamp() + jst_offset
+    ).strftime("%Y年%-m月%-d日 %H:%M")
     sources = sorted(set(a["source"] for a in articles))
 
     article_html = ""
     for a in articles:
-        summary = f'<p class="summary">{a["summary"]}</p>' if a["summary"] else ""
+        color = SOURCE_COLORS.get(a["source"], {"bg": "#f0f0f0", "text": "#333"})
+        summary_html = f'<p class="summary">{a["summary"]}</p>' if a["summary"] else ""
         article_html += f"""
-        <article data-source="{a['source']}">
-            <div class="meta">
-                <span class="source">{a['source']}</span>
-                <span class="date">{a['date']}</span>
-            </div>
-            <h2><a href="{a['url']}" target="_blank" rel="noopener">{a['title']}</a></h2>
-            {summary}
-        </article>"""
+    <article data-source="{a['source']}">
+      <div class="meta">
+        <span class="source-tag" style="background:{color['bg']};color:{color['text']}">{a['source']}</span>
+        <span class="date">{a['date']}</span>
+      </div>
+      <h2><a href="{a['url']}" target="_blank" rel="noopener noreferrer">{a['title']}</a></h2>
+      {summary_html}
+    </article>"""
 
-    filter_buttons = '<button class="filter-btn active" data-source="all">All</button>'
+    filter_buttons = '<button class="filter-btn active" data-source="all">すべて</button>'
     for src in sources:
-        filter_buttons += f'<button class="filter-btn" data-source="{src}">{src}</button>'
+        color = SOURCE_COLORS.get(src, {"bg": "#f0f0f0", "text": "#333"})
+        bg, text = color["bg"], color["text"]
+        filter_buttons += f'<button class="filter-btn" data-source="{src}" style="--active-bg:{bg};--active-text:{text}">{src}</button>'
 
     html = f"""<!DOCTYPE html>
 <html lang="ja">
@@ -74,29 +94,43 @@ def generate_html(articles):
 <title>Tech Report</title>
 <style>
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; }}
-  header {{ background: #1a1a1a; border-bottom: 1px solid #333; padding: 16px 24px; position: sticky; top: 0; z-index: 10; }}
-  header h1 {{ font-size: 1.4rem; color: #fff; margin-bottom: 8px; }}
-  .updated {{ font-size: 0.75rem; color: #888; }}
-  .filters {{ display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 24px; background: #141414; border-bottom: 1px solid #2a2a2a; }}
-  .filter-btn {{ background: #2a2a2a; border: 1px solid #444; color: #ccc; padding: 4px 12px; border-radius: 16px; cursor: pointer; font-size: 0.8rem; }}
-  .filter-btn:hover, .filter-btn.active {{ background: #3b82f6; border-color: #3b82f6; color: #fff; }}
-  main {{ max-width: 860px; margin: 0 auto; padding: 16px 24px; }}
-  article {{ border-bottom: 1px solid #222; padding: 16px 0; }}
-  article:last-child {{ border-bottom: none; }}
-  .meta {{ display: flex; gap: 12px; margin-bottom: 6px; }}
-  .source {{ font-size: 0.75rem; background: #1e3a5f; color: #60a5fa; padding: 2px 8px; border-radius: 4px; }}
-  .date {{ font-size: 0.75rem; color: #666; }}
-  h2 {{ font-size: 1rem; font-weight: 500; line-height: 1.5; }}
-  h2 a {{ color: #e0e0e0; text-decoration: none; }}
-  h2 a:hover {{ color: #60a5fa; }}
-  .summary {{ font-size: 0.82rem; color: #888; margin-top: 6px; line-height: 1.5; }}
+  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f5f5f5; color: #333; }}
+
+  header {{ background: #fff; border-bottom: 2px solid #55c500; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 4px rgba(0,0,0,.06); }}
+  .logo {{ font-size: 1.3rem; font-weight: 700; color: #55c500; letter-spacing: -0.5px; }}
+  .updated {{ font-size: 0.72rem; color: #aaa; }}
+
+  .filters {{ display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 24px; background: #fff; border-bottom: 1px solid #e8e8e8; }}
+  .filter-btn {{ background: #f5f5f5; border: 1px solid #ddd; color: #555; padding: 5px 14px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all .15s; }}
+  .filter-btn:hover {{ border-color: #55c500; color: #55c500; }}
+  .filter-btn.active {{ background: #55c500; border-color: #55c500; color: #fff; }}
+
+  main {{ max-width: 800px; margin: 24px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }}
+
+  article {{ background: #fff; border-radius: 8px; padding: 18px 20px; border: 1px solid #e8e8e8; transition: box-shadow .15s; }}
+  article:hover {{ box-shadow: 0 2px 12px rgba(0,0,0,.08); }}
+
+  .meta {{ display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }}
+  .source-tag {{ font-size: 0.72rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; }}
+  .date {{ font-size: 0.75rem; color: #aaa; }}
+
+  h2 {{ font-size: 1rem; font-weight: 700; line-height: 1.6; }}
+  h2 a {{ color: #222; text-decoration: none; }}
+  h2 a:hover {{ color: #55c500; }}
+
+  .summary {{ font-size: 0.82rem; color: #777; margin-top: 6px; line-height: 1.65; }}
+
+  @media (max-width: 600px) {{
+    header {{ padding: 0 16px; }}
+    .filters {{ padding: 10px 16px; }}
+    main {{ margin: 16px auto; padding: 0 12px; }}
+  }}
 </style>
 </head>
 <body>
 <header>
-  <h1>Tech Report</h1>
-  <div class="updated">Last updated: {updated_at}</div>
+  <span class="logo">Tech Report</span>
+  <span class="updated">更新: {updated_at} JST</span>
 </header>
 <div class="filters">{filter_buttons}</div>
 <main id="articles">{article_html}</main>

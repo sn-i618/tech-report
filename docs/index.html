@@ -6,488 +6,632 @@
 <title>Tech Report</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; }
-  header { background: #1a1a1a; border-bottom: 1px solid #333; padding: 16px 24px; position: sticky; top: 0; z-index: 10; }
-  header h1 { font-size: 1.4rem; color: #fff; margin-bottom: 8px; }
-  .updated { font-size: 0.75rem; color: #888; }
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 24px; background: #141414; border-bottom: 1px solid #2a2a2a; }
-  .filter-btn { background: #2a2a2a; border: 1px solid #444; color: #ccc; padding: 4px 12px; border-radius: 16px; cursor: pointer; font-size: 0.8rem; }
-  .filter-btn:hover, .filter-btn.active { background: #3b82f6; border-color: #3b82f6; color: #fff; }
-  main { max-width: 860px; margin: 0 auto; padding: 16px 24px; }
-  article { border-bottom: 1px solid #222; padding: 16px 0; }
-  article:last-child { border-bottom: none; }
-  .meta { display: flex; gap: 12px; margin-bottom: 6px; }
-  .source { font-size: 0.75rem; background: #1e3a5f; color: #60a5fa; padding: 2px 8px; border-radius: 4px; }
-  .date { font-size: 0.75rem; color: #666; }
-  h2 { font-size: 1rem; font-weight: 500; line-height: 1.5; }
-  h2 a { color: #e0e0e0; text-decoration: none; }
-  h2 a:hover { color: #60a5fa; }
-  .summary { font-size: 0.82rem; color: #888; margin-top: 6px; line-height: 1.5; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; background: #f5f5f5; color: #333; }
+
+  header { background: #fff; border-bottom: 2px solid #55c500; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .logo { font-size: 1.3rem; font-weight: 700; color: #55c500; letter-spacing: -0.5px; }
+  .updated { font-size: 0.72rem; color: #aaa; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 24px; background: #fff; border-bottom: 1px solid #e8e8e8; }
+  .filter-btn { background: #f5f5f5; border: 1px solid #ddd; color: #555; padding: 5px 14px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; transition: all .15s; }
+  .filter-btn:hover { border-color: #55c500; color: #55c500; }
+  .filter-btn.active { background: #55c500; border-color: #55c500; color: #fff; }
+
+  main { max-width: 800px; margin: 24px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  article { background: #fff; border-radius: 8px; padding: 18px 20px; border: 1px solid #e8e8e8; transition: box-shadow .15s; }
+  article:hover { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+
+  .meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .source-tag { font-size: 0.72rem; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+  .date { font-size: 0.75rem; color: #aaa; }
+
+  h2 { font-size: 1rem; font-weight: 700; line-height: 1.6; }
+  h2 a { color: #222; text-decoration: none; }
+  h2 a:hover { color: #55c500; }
+
+  .summary { font-size: 0.82rem; color: #777; margin-top: 6px; line-height: 1.65; }
+
+  @media (max-width: 600px) {
+    header { padding: 0 16px; }
+    .filters { padding: 10px 16px; }
+    main { margin: 16px auto; padding: 0 12px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <h1>Tech Report</h1>
-  <div class="updated">Last updated: 2026-04-22 09:52 UTC</div>
+  <span class="logo">Tech Report</span>
+  <span class="updated">更新: 2026年4月23日 04:15 JST</span>
 </header>
-<div class="filters"><button class="filter-btn active" data-source="all">All</button><button class="filter-btn" data-source="Hacker News">Hacker News</button><button class="filter-btn" data-source="Qiita">Qiita</button><button class="filter-btn" data-source="Zenn">Zenn</button><button class="filter-btn" data-source="dev.to">dev.to</button></div>
+<div class="filters"><button class="filter-btn active" data-source="all">すべて</button><button class="filter-btn" data-source="ITmedia" style="--active-bg:#fce4ec;--active-text:#c62828">ITmedia</button><button class="filter-btn" data-source="Qiita" style="--active-bg:#e8f5e9;--active-text:#55c500">Qiita</button><button class="filter-btn" data-source="Zenn" style="--active-bg:#e8f5e9;--active-text:#2e7d32">Zenn</button><button class="filter-btn" data-source="gihyo.jp" style="--active-bg:#e3f2fd;--active-text:#1565c0">gihyo.jp</button><button class="filter-btn" data-source="はてなブックマーク" style="--active-bg:#fff3e0;--active-text:#e65100">はてなブックマーク</button></div>
 <main id="articles">
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:40</span>
-            </div>
-            <h2><a href="https://dev.to/prajwolshrestha/do-you-really-need-websockets-4ldf" target="_blank" rel="noopener">Do You Really Need WebSockets?</a></h2>
-            <p class="summary"><p>Every time a feature had the word "real-time" in it, my brain would jump straight to WebSockets. It felt like the right, serious, production-grade choice. Turns out, it's often overkill. And unders</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:40</span>
-            </div>
-            <h2><a href="https://dev.to/coderabbitai/how-to-use-ai-to-identify-and-fix-security-vulnerabilities-in-your-codebase-4na2" target="_blank" rel="noopener">How to use AI to identify and fix security vulnerabilities in your codebase</a></h2>
-            <p class="summary"><p><em>Meta: Understand the common code-based security vulnerabilities, from SQL injection to XSS, and how AI simplifies the detection and resolution of these security vulnerabilities for improved cod</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:29</span>
-            </div>
-            <h2><a href="https://dev.to/shrikant9907/how-i-built-a-qr-business-card-generator-with-nextjs-550g" target="_blank" rel="noopener">How I built a QR business card generator with Next.js</a></h2>
-            <p class="summary"><h1>
-  
-  
-  How I built a QR business card generator with Next.js
-</h1>
-
-<p>Most small businesses still rely on printed visiting cards that get outdated quickly and are hard to track or update.</p>
-
-</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:29</span>
-            </div>
-            <h2><a href="https://dev.to/cloudonemonk/building-the-world-now-six-months-of-stack-notes-10pa" target="_blank" rel="noopener">Building The World Now: six months of stack notes</a></h2>
-            <p class="summary"><p>About six months ago I started <a href="https://www.the-world-now.com" rel="noopener noreferrer">The World Now</a> as a side project, an attempt to build a news site where the pipeline is mostly au</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:24</span>
-            </div>
-            <h2><a href="https://dev.to/alessandro_pignati/why-mcdonalds-ai-started-coding-a-wake-up-call-for-chatbot-security-2a10" target="_blank" rel="noopener">Why McDonald’s AI Started Coding: A Wake-Up Call for Chatbot Security</a></h2>
-            <p class="summary"><p>Imagine you’re hungry, you open the McDonald’s app to complain about a missing Big Mac, and instead of a refund, the chatbot starts writing Python scripts for you. </p>
-
-<p>Sounds like a developer'</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:21</span>
-            </div>
-            <h2><a href="https://dev.to/james_smith_543/why-captcha-and-traditional-verification-methods-are-failing-5e2k" target="_blank" rel="noopener">Why CAPTCHA and Traditional Verification Methods Are Failing</a></h2>
-            <p class="summary"><p>Our defenses against automated threats that we have constructed to ensure that human-facing systems do not receive them are being systematically bypassed, not by some exotic exploit, but with the s</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:20</span>
-            </div>
-            <h2><a href="https://dev.to/johnnylemonny/how-i-started-learning-kotlin-by-building-a-real-android-app-32ic" target="_blank" rel="noopener">How I Started Learning Kotlin by Building a Real Android App</a></h2>
-            <p class="summary"><p>For a long time, Kotlin was one of those technologies I kept meaning to learn “properly.”</p>
-
-<p>You probably know the feeling.</p>
-
-<p>You read a few examples.<br /><br />
-You understand the synt</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:17</span>
-            </div>
-            <h2><a href="https://dev.to/igoriot/bringing-java-closer-to-education-a-community-driven-initiative-30hk" target="_blank" rel="noopener">Bringing Java Closer to Education: A Community-Driven Initiative</a></h2>
-            <p class="summary"><p><a class="article-body-image-wrapper" href="https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fupl</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:17</span>
-            </div>
-            <h2><a href="https://dev.to/grewup/build-a-247-facebook-messenger-ai-chatbot-with-n8n-full-setup-no-code-5fg9" target="_blank" rel="noopener">Build a 24/7 Facebook Messenger AI Chatbot With n8n (Full Setup — No Code)</a></h2>
-            <p class="summary"><p><strong>What this builds</strong></p>
-
-<p>A Facebook Messenger chatbot that responds to every incoming message automatically, 24/7, using an AI agent connected to your Facebook Business Page via n8</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:15</span>
-            </div>
-            <h2><a href="https://dev.to/amel_in_tech/fonctionnement-dune-blockchain-etape-38-selection-des-transactions-frais-priorite-7a5" target="_blank" rel="noopener">Fonctionnement d’une blockchain - Étape 3/8 : Sélection des transactions (frais & priorité)</a></h2>
-            <p class="summary"><p>Ici, les transactions (ex : “Alice envoie 10 tokens à Bob”) ont été créées, signées et vérifiées. Elles attendent maintenant dans la mempool (la file d’attente).</p>
-
-<p>Mais… qui décide <strong>qu</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:15</span>
-            </div>
-            <h2><a href="https://dev.to/surrealdb/whats-new-in-surrealist-38-2c7h" target="_blank" rel="noopener">What's New in Surrealist 3.8</a></h2>
-            <p class="summary"><p>Authors: <a href="https://github.com/ItsMateo" rel="noopener noreferrer">Matthew McFadden</a> &amp; <a href="https://github.com/macjuul" rel="noopener noreferrer">Julian Mills</a></p>
-
-<p>We're exc</p>
-        </article>
-        <article data-source="dev.to">
-            <div class="meta">
-                <span class="source">dev.to</span>
-                <span class="date">2026-04-22 09:14</span>
-            </div>
-            <h2><a href="https://dev.to/aicloudstrategist/eks-cost-audit-for-series-a-c-india-saas-the-12-point-checklist-3ghi" target="_blank" rel="noopener">EKS Cost Audit for Series A-C India SaaS: The 12-Point Checklist</a></h2>
-            <p class="summary"><blockquote>
-<p>Originally published at <strong><a href="https://aicloudstrategist.com/blog/eks-cost-audit-checklist-india.html" rel="noopener noreferrer">aicloudstrategist.com/blog/eks-cost-audit-che</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-22 04:09</span>
-            </div>
-            <h2><a href="https://qiita.com/hitomin_poke/items/befed7f99c8d90b649b9?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【前編】9割の新人エンジニアがやっている 「承知しました」の落とし穴</a></h2>
-            <p class="summary">はじめまして。株式会社PRUMでエンジニアをしている人見です。
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news129.html" target="_blank" rel="noopener noreferrer">話題の「Claude Mythos」、なんて読む？　「ミトス」か「ミソス」か、はたまた「ミュトス」か</a></h2>
+      <p class="summary">米Anthropicが4月7日に発表し、そのセキュリティ性能などから世間をにぎわす次世代大規模言語モデル「Claude Mythos」。日本では「（クロード）ミトス」「ミソス」「ミュトス」などと書かれ、日本政府や大手報道機関でも読みや表記が</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/stitch-design-md-open-source?utm_source=feed" target="_blank" rel="noopener noreferrer">Stitch、DESIGN.mdのドラフト仕様をオープンソースに</a></h2>
+      <p class="summary">Google Labsは2026年4月21日、AIデザインツールStitchで用いるDESIGN.mdのドラフト仕様をオープンソースとして公開した。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://policies.hatena.ne.jp/entry/2026/04/22/155533" target="_blank" rel="noopener noreferrer">事実と異なる記事に対する発信者情報開示請求 - Hatena Policies</a></h2>
+      <p class="summary">匿名ダイアリーに記事（タイトル「フリマアプリの会社で働いていた」）が投稿された 当該記事につき、事実と異なり名誉毀損に該当するとして、記事内に言及された法人より削除申立および発信者情報開示請求あり 当初記事に記載されていた法人名は投稿者によ</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://zenn.dev/cscloud_blog/articles/devops-agent-guardduty-integration" target="_blank" rel="noopener noreferrer">AWS DevOps Agent と GuardDuty を連携してみたら想像していたセキュリティインシデント調査が行われていて感動した話</a></h2>
+      <p class="summary">こんにちは、CSC の CloudFastener というプロダクトで TAM のポジションで働いている平木です！ 突然ですが、皆さんは深夜 2 時に GuardDuty のアラートが飛んできたとき、誰が調査しますか？ 今までは翌朝確認して</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://atmarkit.itmedia.co.jp/ait/articles/2604/22/news015.html" target="_blank" rel="noopener noreferrer">【Google推奨】Geminiから満足のいく回答を引き出すための「構造化プロンプト」実践ガイド</a></h2>
+      <p class="summary">Geminiから100点の回答を引き出す「構造化プロンプト」実践ガイド 生成AIとの対話で「期待通りの回答が得られない」原因の多くは指示の曖昧さにある。本Tech TIPSでは、Google Geminiから的確な回答を引き出すためのフレー</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news099.html" target="_blank" rel="noopener noreferrer">LINEパスワードが意図せず上書きされる不具合　入力ミスが新パスワードに……約1年間続く</a></h2>
+      <p class="summary">パスワード確認画面で誤ったパスワードを入力した場合、画面上は認証失敗と表示されるにもかかわらず、システム上では誤入力がそのまま新パスワードとして登録されていたという。</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://qiita.com/hitomin_poke/items/befed7f99c8d90b649b9?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【前編】9割の新人エンジニアがやっている 「承知しました」の落とし穴</a></h2>
+      <p class="summary">はじめまして。株式会社PRUMでエンジニアをしている人見です。
 日々、プログラミング学習や実務の中で、つまずきやすいポイントや考え方を整理して発信しています。
 PRUMについて気になった方は、コーポレートサイトもぜひご覧ください。
-▶コーポレートサイト
-
-【前編】9割の新人...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-22 01:40</span>
-            </div>
-            <h2><a href="https://qiita.com/tomo-2525/items/848cbd21f769de6ed15c?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【便利ツール紹介】Googleも推奨！シェルスクリプトを書くなら必ず導入したい静的解析ツール</a></h2>
-            <p class="summary">株式会社ブレインパッド プロダクトユニットの鈴木です。
+▶コーポ</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://speakerdeck.com/nrslib/practical-harness-engineering-ai-agent-control-enabled-by-takt" target="_blank" rel="noopener noreferrer">実践ハーネスエンジニアリング：TAKTで実現するAIエージェント制御 / Practical Harness Engineering: AI Agent Control Enabled by TAKT</a></h2>
+      <p class="summary">『【Harness Engineering入門】AIエージェントを制御するアプローチ』というイベントの講演資料です ハーネスエンジニアリングについて整理し、TAKT での実践について言及しています イベント：https://findy.co</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://ascii.jp/elem/000/004/396/4396995/" target="_blank" rel="noopener noreferrer">すごすぎて笑う、なにこれ　OpenAI、漫画や広告に強い画像生成AI「ChatGPT Images 2.0」正式発表</a></h2>
+      <p class="summary">画像生成AIは、もはや“きれいな絵を出す道具”ではなくなりつつある。OpenAIは4月22日、画像生成モデル「ChatGPT Images 2.0」を発表し、ChatGPT、Codex、APIで提供を始めた。ThinkingやPro系モデル</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://internet.watch.impress.co.jp/docs/yajiuma/2103614.html" target="_blank" rel="noopener noreferrer">これが本音？ Microsoft、Windows 11でサードパーティ製ウイルス対策ソフトは不要との見解【やじうまWatch】</a></h2>
+      
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news084.html" target="_blank" rel="noopener noreferrer">「ぶいすぽっ！」のBrave groupがシリーズEで約80億円を調達　筆頭株主はグリーに</a></h2>
+      <p class="summary">VTuberプロジェクト「ぶいすぽっ！」の運営企業などを傘下に持つBrave groupは22日、シリーズEを通じて約80億円を調達したと発表した。筆頭株主はグリーとなる。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://gigazine.net/news/20260422-chatgpt-images-2-0/" target="_blank" rel="noopener noreferrer">OpenAIが画像生成AI「ChatGPT Images 2.0」を正式リリースしたので使ってみた、イラストも日本語セリフも高品質に描写可能</a></h2>
+      <p class="summary">OpenAIがChatGPTの画像生成機能「ChatGPT Images 2.0」を日本時間の2026年4月22日に正式リリースしました。ChatGPT Images 2.0は第三者機関のテストで世界ランキングトップのスコアを記録しており、</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/chatgpt-images-2.0?utm_source=feed" target="_blank" rel="noopener noreferrer">OpenAI、最先端の画像生成モデル「ChatGPT Images 2.0」を発表 ——日本語を含む非ラテン文字のレンダリング能力も向上</a></h2>
+      <p class="summary">OpenAIは2026年4月21日、最先端の画像生成モデルを発表した。ChatGPTでは「ChatGPT Images 2.0」として、開発者向けAPIでは「GPT Image 2」として展開する。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news083.html" target="_blank" rel="noopener noreferrer">「ChatGPT Images 2.0」発表、AIが&quot;考えてから描く&quot;画像生成モデル　日本語テキストもより正確に</a></h2>
+      
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news076.html" target="_blank" rel="noopener noreferrer">日立の家電事業をノジマが買収　「日立ブランドの信頼性を守る」</a></h2>
+      <p class="summary">日立製作所と日立GLSは21日、家電量販チェーンのノジマに家電事業を売却すると発表した。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://developers.freee.co.jp/entry/github-copilot-governance" target="_blank" rel="noopener noreferrer">GitHub Copilotにソースコードを学習されないために対応したこと - freee Developers Hub</a></h2>
+      <p class="summary">GitHubが大好きなセキュリティチームのhikaeです。GitHubは先日、GitHub Copilot Free / Pro / Pro+ の入出力などを、オプトアウトしない限りAIモデルの学習に利用する方針変更を発表しました。適用は2</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://qiita.com/tomo-2525/items/848cbd21f769de6ed15c?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【便利ツール紹介】Googleも推奨！シェルスクリプトを書くなら必ず導入したい静的解析ツール</a></h2>
+      <p class="summary">株式会社ブレインパッド プロダクトユニットの鈴木です。
 弊社は「データ活用の促進を通じて持続可能な未来をつくる」をミッションに、
 データ分析支援やSaaSプロダクトの提供を通じて、企業の「データ活用の日常化」を推進しております。
-現在、私は企業のマーケティング活動をデータで...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 23:32</span>
-            </div>
-            <h2><a href="https://qiita.com/shirok/items/92cf7e55a955be1a4bbd?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">Oracle AI Database@AWS で Exadata を作成してみてみた</a></h2>
-            <p class="summary">OracleとAmazon Web Services, Inc.(AWS) は、AWS データセンター内の Oracle Cloud Infrastructure (OCI) 管理の専用インフラストラクチャ上で、Oracle Exadata Database Servic...</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 22:13</span>
-            </div>
-            <h2><a href="https://twitter.com/spacex/status/2046713419978453374" target="_blank" rel="noopener">SpaceX says it has agreement to acquire Cursor for $60B</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47855293">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 18:50</span>
-            </div>
-            <h2><a href="https://openai.com/index/introducing-chatgpt-images-2-0/" target="_blank" rel="noopener">ChatGPT Images 2.0</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47852835">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 18:00</span>
-            </div>
-            <h2><a href="https://frame.work/laptop13pro" target="_blank" rel="noopener">Framework Laptop 13 Pro</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47852177">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 17:58</span>
-            </div>
-            <h2><a href="https://github.com/calcom/cal.diy" target="_blank" rel="noopener">Cal.diy: open-source community edition of cal.com</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47852155">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 17:40</span>
-            </div>
-            <h2><a href="https://www.reuters.com/sustainability/boards-policy-regulation/meta-start-capturing-employee-mouse-movements-keystrokes-ai-training-data-2026-04-21/" target="_blank" rel="noopener">Meta to start capturing employee mouse movements, keystrokes for AI training</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47851948">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 17:33</span>
-            </div>
-            <h2><a href="https://britannica11.org/" target="_blank" rel="noopener">Britannica11.org – a structured edition of the 1911 Encyclopædia Britannica</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47851885">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 17:14</span>
-            </div>
-            <h2><a href="https://www.trendmicro.com/en_us/research/26/d/vercel-breach-oauth-supply-chain.html" target="_blank" rel="noopener">The Vercel breach: OAuth attack exposes risk in platform environment variables</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47851634">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 14:26</span>
-            </div>
-            <h2><a href="https://www.fusionenergybase.com/fusion-power-plant-simulator" target="_blank" rel="noopener">Fusion Power Plant Simulator</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47849315">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 11:04</span>
-            </div>
-            <h2><a href="https://lawsofsoftwareengineering.com" target="_blank" rel="noopener">Laws of Software Engineering</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47847179">Comments</a></p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 10:40</span>
-            </div>
-            <h2><a href="https://zenn.dev/shintaroamaike/articles/69a7611880420d" target="_blank" rel="noopener">その生産性向上、現場が静かに支払っているコストの話</a></h2>
-            <p class="summary">はじめに
+現在、私は</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://levtech.jp/media/detail_848/" target="_blank" rel="noopener noreferrer">それでもHDDを進化させたくて。国内唯一のメーカーとなった東芝・闘争の25年【フォーカス】 - レバテックLAB</a></h2>
+      <p class="summary">東芝デバイス＆ストレージ株式会社 ストレージプロダクツ事業部 技師長 竹尾 昭彦（たけお・あきひこ） 1995年、東芝の研究開発センター（現・総合研究所）に入社し、ハードディスクを中心とした磁気記録技術の開発に従事。1997年より事業部へ異</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.asahi.com/articles/ASV4P1GTLV4PUHBI027M.html" target="_blank" rel="noopener noreferrer">危険すぎて非公開のAI「ミュトス」　システム弱点特定、日本も警戒：朝日新聞</a></h2>
+      <p class="summary">危険すぎて公開できないAI（人工知能）が米国で開発され、関係者が危機感を募らせている。　米新興企業アンソロピックが発表した新型モデル「クロード・ミュトス」は、性能を飛躍的に高めたが、サイバー攻撃など…</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news026.html" target="_blank" rel="noopener noreferrer">小麦粉や米粉はなぜ「食べ過ぎてなくても太る」のか　体重増加との意外な関係、大阪公立大がマウスで検証</a></h2>
+      <p class="summary">2019年にスタートした本連載「Innovative Tech」は、世界中の幅広い分野から最先端の研究論文を独自視点で厳選、解説する。執筆は研究論文メディア「Seamless」（シームレス）を主宰し、日課として数多くの論文に目を通す山下氏が</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/admin/serial/01/ubuntu-recipe/0908?utm_source=feed" target="_blank" rel="noopener noreferrer">第908回　Ubuntu 26.04 LTSの変更点 ［25.10→26.04 LTS編］</a></h2>
+      <p class="summary">4月23日にリリースされる予定のUbuntu 26.04 LTS。今回は、25.10からの特徴的な変更点をお知らせします。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月22日</span>
+      </div>
+      <h2><a href="https://gigazine.net/news/20260422-3d-printing-meta-nfs-electronics/" target="_blank" rel="noopener noreferrer">生きた植物や骨に直接電子回路を印刷できる3Dプリンティング技術が開発される</a></h2>
+      <p class="summary">3Dプリンターはこれまでにない汎用(はんよう)性を備えた建築物や機械部品、電子機器などを製作できるツールですが、温度に敏感な物体上で材料を加熱することが難しいという問題がありました。新たにアメリカのライス大学の研究チームが、マイクロ波をリア</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.techno-edge.net/article/2026/04/22/5008.html" target="_blank" rel="noopener noreferrer">「君のPC、どのローカルAIを動かせる？」がわかるWebサイト「CanIRun.ai」が便利。訪問するだけで自動判定（生成AIクローズアップ） | テクノエッジ TechnoEdge</a></h2>
+      <p class="summary">1週間の気になる生成AI技術・研究をいくつかピックアップして解説する連載「生成AIウィークリー」から、特に興味深いAI技術や研究にスポットライトを当てる生成AIクローズアップ。 今回は、サイトに訪問するだけで自分のPCでどのAIモデルがロー</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/shirok/items/92cf7e55a955be1a4bbd?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">Oracle AI Database@AWS で Exadata を作成してみてみた</a></h2>
+      <p class="summary">OracleとAmazon Web Services, Inc.(AWS) は、AWS データセンター内の Oracle Cloud Infrastructure (OCI) 管理の専用インフラストラクチャ上で、Oracle Exadata</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.nikkei.com/article/DGXZQOGN220D50S6A420C2000000/" target="_blank" rel="noopener noreferrer">米スペースX、9.6兆円で「Cursor」買収権　プログラミングAI強化 - 日本経済新聞</a></h2>
+      <p class="summary">【シリコンバレー=山田遼太郎】起業家イーロン・マスク氏が率いる米スペースXは21日、プログラミング用の人工知能（AI）サービスを開発する米新興Cursor（カーソル）を600億ドル（約9兆6000億円）で買収する権利を得たと発表した。スペー</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://blog.tinect.jp/?p=91004" target="_blank" rel="noopener noreferrer">「賢い人の怖さ」の正体。</a></h2>
+      <p class="summary">コンサルタント、という仕事は、初対面の、様々な人と話すことが必要な職業です。 しかし、不特定多数を相手にする接客業（例えばホテルや飲食店）が接客する相手を自由に選ぶことができないように、コンサルタントも大体において「話をしなければならない人</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/22/news026.html" target="_blank" rel="noopener noreferrer">小麦粉や米粉はなぜ「食べ過ぎてなくても太る」のか　体重増加との意外な関係、大阪公立大がマウスで検証</a></h2>
+      <p class="summary">大阪公立大学大学院の研究グループが学術誌「Molecular Nutrition &amp; Food Research」で発表した論文「Wheat Flour Intake Promotes Weight Gain and Metabolic C</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://internet.watch.impress.co.jp/docs/column/editors/2102935.html" target="_blank" rel="noopener noreferrer">SNSが好きな人も、そうでない人も知っておきたい「SNS周辺で今起きていること」 【INTERNET Watch編集部コラム】</a></h2>
+      
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/05/news003.html" target="_blank" rel="noopener noreferrer">会社で使っていいAI、ダメなAI　漫画「1週間後に生成AIで恥をかく新入社員」【残り6日】</a></h2>
+      <p class="summary">とある企業に入社した新入社員「ニイジマ」が、AI活用の“地雷”を踏みまくっていく様子を通して、会社におけるAIの使い方、その初歩を紹介します。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://pc.watch.impress.co.jp/docs/topic/feature/2103480.html" target="_blank" rel="noopener noreferrer">【特集】 「Claude Cowork」5つの使い方。定型業務を丸ごとAIに任せてみる</a></h2>
+      
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://lawsofsoftwareengineering.com/" target="_blank" rel="noopener noreferrer">Laws of Software Engineering</a></h2>
+      <p class="summary">Laws of Software EngineeringA collection of principles and patterns that shape software systems, teams, and decisions.</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news135.html" target="_blank" rel="noopener noreferrer">ニコニコ動画、AIがコメントしてくれる実験機能　動画上にも流れる</a></h2>
+      <p class="summary">ドワンゴがニコニコ動画に、AIがコメントを投稿する新機能を追加した。動画を盛り上げる実験として、約1カ月間無料提供する。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news134.html" target="_blank" rel="noopener noreferrer">「AI都知事ユリコ」登場　AIアバターが都政の情報発信</a></h2>
+      <p class="summary">東京都は21日、小池百合子都知事のAIアバター「AI都知事ユリコ」を公開した。</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.tohoho-web.com/ai/local-ai.html" target="_blank" rel="noopener noreferrer">とほほのローカルAI入門 - とほほのWWW入門</a></h2>
+      <p class="summary">docker run -it --name hf python:3.14 bash apt update apt -y install vim pip install transformers torch from transformers</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/shintaroamaike/articles/69a7611880420d" target="_blank" rel="noopener noreferrer">その生産性向上、現場が静かに支払っているコストの話</a></h2>
+      <p class="summary">はじめに
 Claude Code をはじめとする AI コーディング支援ツールの高度化により、マークダウンで構造化された仕様書を AI に渡して実装を進める、いわゆる仕様駆動型の開発スタイルが広まりつつあります。
-実装速度は目に見えて向上し、かつてであれば数日かかった作業が数時間で完了するケースも珍しくありません。
-一方で、現場で開発に携わっていると、速度向上だけでは説明しきれない違和感が蓄積して</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-21 10:19</span>
-            </div>
-            <h2><a href="https://www.courthousenews.com/preserved-for-billions-of-years-organic-compounds-found-on-mars/" target="_blank" rel="noopener">Diverse organic molecules on Mars revealed by the first SAM TMAH experiment</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47846861">Comments</a></p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 09:55</span>
-            </div>
-            <h2><a href="https://qiita.com/wan-code/items/7138654568f8ef43785b?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">n8nでBBCニュースを自動翻訳・要約してDiscordに通知する仕組みを作ってみた</a></h2>
-            <p class="summary">はじめに
+実装速度は目に見えて向上し</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/wan-code/items/7138654568f8ef43785b?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">n8nでBBCニュースを自動翻訳・要約してDiscordに通知する仕組みを作ってみた</a></h2>
+      <p class="summary">はじめに
 海外ニュースを追いたいけど、毎回英語の記事を読むのは少しハードルが高い。
 そこで今回は、BBCのRSSをn8nで定期取得し、新着ニュースだけをAIで日本語要約してDiscordに投稿する仕組みを作ってみました。
-やっていることはシンプルです。
-
-BBC News...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 09:42</span>
-            </div>
-            <h2><a href="https://zenn.dev/saboyutaka/books/graphql-ruby-guide" target="_blank" rel="noopener">graphql-ruby 実践ガイド</a></h2>
-            <p class="summary">graphql-rubyで開発中の中級者に向けた、設計判断のための実践ガイド。GraphQL Spec・Relay Spec・graphql-js・graphql-rubyの4つのレイヤーを意識しながら、実行パイプラインの内部構造から型設計、Mutation、認可、パフォーマンス、運用まで体系的に解説します。</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 09:24</span>
-            </div>
-            <h2><a href="https://qiita.com/nhatcaofedev/items/2ef93aeb41f834e777c6?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">React Hook Form 入門 Part 2 — バリデーション設計を実務レベルに引き上げる</a></h2>
-            <p class="summary">シリーズ構成
+やっていることはシ</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news128.html" target="_blank" rel="noopener noreferrer">ソニー・ホンダモビリティ、事実上の休止決定　全従業員は希望踏まえ親会社などに再配置へ</a></h2>
+      <p class="summary">ソニーグループとホンダが、電気自動車（EV）の開発を手掛ける共同出資会社のソニー・ホンダモビリティの事実上の休止を発表した。設立趣旨に基づいた商品やサービスの市場投入について「短中期的に実現可能な手段を見いだすことが困難であるとの結論に至っ</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/saboyutaka/books/graphql-ruby-guide" target="_blank" rel="noopener noreferrer">graphql-ruby 実践ガイド</a></h2>
+      <p class="summary">graphql-rubyで開発中の中級者に向けた、設計判断のための実践ガイド。GraphQL Spec・Relay Spec・graphql-js・graphql-rubyの4つのレイヤーを意識しながら、実行パイプラインの内部構造から型設計</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/nhatcaofedev/items/2ef93aeb41f834e777c6?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">React Hook Form 入門 Part 2 — バリデーション設計を実務レベルに引き上げる</a></h2>
+      <p class="summary">シリーズ構成
 
 Part 1: RHF の仕組みを理解してから使う → [リンク]
 
 Part 2: バリデーション設計を実務レベルに引き上げる（本記事）
 Part 3: Controller と useFieldArray（準備中）
 
-Part 1 では regi...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 08:51</span>
-            </div>
-            <h2><a href="https://qiita.com/nhatcaofedev/items/57a054312191c30e807b?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">React Hook Form 入門 Part 1 — 仕組みを理解してから使う</a></h2>
-            <p class="summary">React Hook Form 入門 — 仕組みを理解してから使う Part 1
+P</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/nhatcaofedev/items/57a054312191c30e807b?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">React Hook Form 入門 Part 1 — 仕組みを理解してから使う</a></h2>
+      <p class="summary">React Hook Form 入門 — 仕組みを理解してから使う Part 1
 読了時間の目安: 約10分 · React Hook Form v7 対応
-「とりあえず動いた」ではなく、なぜ動くのかを理解しながら React Hook Form（以下 RHF）を使えるよ...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 08:49</span>
-            </div>
-            <h2><a href="https://qiita.com/S_kamon/items/8935a8d000920c12cf08?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">== と equals() の違いを完全に理解する — なぜStringの比較は equals() を使うのか</a></h2>
-            <p class="summary">はじめに
+「とりあえず動いた」ではなく、なぜ動くのかを理解しながら React Hook F</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/S_kamon/items/8935a8d000920c12cf08?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">== と equals() の違いを完全に理解する — なぜStringの比較は equals() を使うのか</a></h2>
+      <p class="summary">はじめに
 Javaを書き始めたころ、こんな経験をした方は多いのではないでしょうか。
-String a = new String("Hello");
-String b = new String("Hello");
+String a = new String(&quot;Hello&quot;);
+String b = new String(&quot;Hello&quot;);
 
-if (a == b) {
-    System.out....</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 08:12</span>
-            </div>
-            <h2><a href="https://qiita.com/miruky/items/f67bd754c1f7a5116a7c?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【徹底解説】DBスペシャリストなりぞこないが教える、データベースの教科書（設計もあるよ）</a></h2>
-            <p class="summary">はじめに
+if (a == b) {</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/miruky/items/f67bd754c1f7a5116a7c?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【徹底解説】DBスペシャリストなりぞこないが教える、データベースの教科書（設計もあるよ）</a></h2>
+      <p class="summary">はじめに
 
 こんばんは、mirukyです。
 昨年、データベーススペシャリスト試験に挑戦しましたが、午後II試験に 3点差 で落ちました、、(泣)
-そんな私ですが、勉強の過程や実務を通じてデータベース（DB）に関してはかなり自信がついたので、まとめたナレッジを共有できれば...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 07:43</span>
-            </div>
-            <h2><a href="https://qiita.com/hiroki_notes/items/e83b2285948cc712ca67?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">レイヤードアーキテクチャを図とコードでやさしく理解する（C# / ASP.NET Core）</a></h2>
-            <p class="summary">ソフトウェア設計って、どうしても堅苦しく聞こえがちです。
+そんな私ですが、勉強の過程や実務を通じてデータベース（DB）に関してはかなり自信がついたので、</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/hiroki_notes/items/e83b2285948cc712ca67?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">レイヤードアーキテクチャを図とコードでやさしく理解する（C# / ASP.NET Core）</a></h2>
+      <p class="summary">ソフトウェア設計って、どうしても堅苦しく聞こえがちです。
 「アーキテクチャ」と聞くだけで、急に難しそうに感じることもあります。
 でも実際に触れてみると、
 「もっと早く知っておけばよかった…！」
 と思う概念がいくつもあります。
-そのひとつが レイヤードアーキテクチャ（Laye...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 06:32</span>
-            </div>
-            <h2><a href="https://qiita.com/i-inose/items/e644e9b620ee1c8d3c1b?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【初心者必見】今から追いつくClaude Code 入門・徹底解説</a></h2>
-            <p class="summary">はじめに
+そのひとつが </p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/i-inose/items/e644e9b620ee1c8d3c1b?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【初心者必見】今から追いつくClaude Code 入門・徹底解説</a></h2>
+      <p class="summary">はじめに
 この記事は、Claude Code を使い始めたいエンジニアのための入門ガイドです。
-「名前は聞いたことがあるけれど、なんとなく乗り遅れた気がして触れていない」という方に向けて書きました。Claude Code は 2025 年 3 月にベータ公開が始まり、今も...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 06:03</span>
-            </div>
-            <h2><a href="https://zenn.dev/progate/articles/cb3018bbfc5aad" target="_blank" rel="noopener">いい CLAUDE.md なのか、Claude Code と計測・分析してみた</a></h2>
-            <p class="summary">Progate でエンジニア見習いをしている横江( @yokoe24 )です！
+「名前は聞いたことがあるけれど、なんとなく乗り遅れた気がして触れていない」という方に向けて書きました。Claude Code は 2025 年 </p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news110.html" target="_blank" rel="noopener noreferrer">サンリオ、ゲームブランド「Sanrio Games」始動　自社IPゲームをグローバル展開</a></h2>
+      <p class="summary">従来、ライセンス許諾でゲーム展開しており、これも継続拡大するが、新ブランドでは企画・開発の主体をサンリオが担う。</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/progate/articles/cb3018bbfc5aad" target="_blank" rel="noopener noreferrer">いい CLAUDE.md なのか、Claude Code と計測・分析してみた</a></h2>
+      <p class="summary">Progate でエンジニア見習いをしている横江( @yokoe24 )です！
 先月から業務委託でお手伝いさせていただいております。
 
  CLAUDE.md が物足りない問題！
-Progate はバックエンドとフロントエンドのリポジトリがしっかり分かれていて、
-その両方の実装が必要な時があります。
-しかし、フロントエンドのリポジトリをさわっているときに違和感がありました。
-「なんか…… Claud</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 05:37</span>
-            </div>
-            <h2><a href="https://zenn.dev/chot/articles/ai-sdk-json-render-inline-generative-ui" target="_blank" rel="noopener">AI SDK のストリームに json-render を挟んで Generative UI をインライン描画する</a></h2>
-            <p class="summary">はじめに
-json-render は、Zod で定義したコンポーネントカタログを介して、LLM が生成した JSON Spec を React コンポーネントとして描画する Vercel Labs 製の Declarative Generative UI フレームワークです。
-本記事では、その json-render を AI SDK のストリームパイプラインに挟み込み、テキストと Generat</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 05:06</span>
-            </div>
-            <h2><a href="https://zenn.dev/tellernovel_inc/articles/4c04e09577909d" target="_blank" rel="noopener">Perryファーストインプレッション - TypeScriptのままネイティブアプリが作れる新しい選択肢</a></h2>
-            <p class="summary">こんにちは！テラーノベルでiOS/Android/Webとフロントエンド周りを担当している @kazutoyoです！
-TypeScriptをそのままネイティブバイナリにコンパイルできる「Perry」が話題になっていたので、実際に試してみました。
-今回はそのファーストインプレッションをお届けします。
-https://www.perryts.com/
-!
-perry version: 0.5.112を</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 03:58</span>
-            </div>
-            <h2><a href="https://qiita.com/masa20057/items/acc90d24eb083dba9462?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【初心者エンジニア向け】開発を前に進めるための行動3選</a></h2>
-            <p class="summary">株式会社PRUMのmasaです。
+Progate はバックエンドとフロントエンドのリポジトリがし</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news106.html" target="_blank" rel="noopener noreferrer">東映、ゲーム事業に本格参入　「既存IPに頼らない新タイトル」発表へ　まずSteamから</a></h2>
+      <p class="summary">映画、テレビ、催事などの分野と並ぶ新たな柱として注力する。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news069.html" target="_blank" rel="noopener noreferrer">通信量「3分の1では足りない」　オプテージ社長、大阪のデータセンター投資で東京代替へ</a></h2>
+      <p class="summary">関西電力グループで通信事業を担うオプテージの名部（なべ）正彦社長が産経新聞のインタビューに応じ、「1社だけの力では難しいが、10年程度で大阪が東京の通信インフラを補完し、一定の役割を果たせるようにしていきたい」と語った。</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/chot/articles/ai-sdk-json-render-inline-generative-ui" target="_blank" rel="noopener noreferrer">AI SDK のストリームに json-render を挟んで Generative UI をインライン描画する</a></h2>
+      <p class="summary">はじめに
+json-render は、Zod で定義したコンポーネントカタログを介して、LLM が生成した JSON Spec を React コンポーネントとして描画する Vercel Labs 製の Declarative Genera</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news099.html" target="_blank" rel="noopener noreferrer">名作の結末を”AI改変”、「マハーバーラタ」の“AI映像化”も──AI活用に野心燃やすインド映画界のいま</a></h2>
+      <p class="summary">コロナ禍から続く興業の不安定化をAIで打開しようとするインド映画界、その全容とは……</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/tellernovel_inc/articles/4c04e09577909d" target="_blank" rel="noopener noreferrer">Perryファーストインプレッション - TypeScriptのままネイティブアプリが作れる新しい選択肢</a></h2>
+      <p class="summary">こんにちは！テラーノベルでiOS/Android/Webとフロントエンド周りを担当している @kazutoyoです！
+TypeScriptをそのままネイティブバイナリにコンパイルできる「Perry」が話題になっていたので、実際に試してみまし</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/kimi-k2-6?utm_source=feed" target="_blank" rel="noopener noreferrer">最先端のコーディング性能をもつオープンソースのマルチモーダルエージェントモデルKimi K2.6リリース</a></h2>
+      <p class="summary">中国Moonshot AIは2026年4月21日、同社のフロンティアモデルの最新バージョンKimi K2.6をリリースした。</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/masa20057/items/acc90d24eb083dba9462?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【初心者エンジニア向け】開発を前に進めるための行動3選</a></h2>
+      <p class="summary">株式会社PRUMのmasaです。
 今日は、主に開発タスクを前に手が止まってしまう初心者エンジニアの方に向けて、「タスク分解」を軸にした進め方を解説します。
-不確実性の高い開発現場でも、タスクを小さく分けて考え、早めに手を動かし、60点でもアウトプットすることで、不安をコント...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-21 02:51</span>
-            </div>
-            <h2><a href="https://zenn.dev/lv/articles/302bf552110e67" target="_blank" rel="noopener">Claude Codeユーザーのためのプロンプトキャッシュ入門</a></h2>
-            <p class="summary">はじめに
+不確実性の高い開発現場でも、タスクを小さく分けて考え、早めに手を動かし、60点でもア</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/skills-in-chrome-as-experimental-feature?utm_source=feed" target="_blank" rel="noopener noreferrer">実験的に日本でも「Skills in Chrome」が利用可能に</a></h2>
+      <p class="summary">Gemini in Chromeの日本国内の展開と同時に、よく使用するプロンプトを再利用しやすくスキルとして活用できる機能「Skills in Chrome」が実験的に利用可能になっている。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news068.html" target="_blank" rel="noopener noreferrer">AIによるサイバー攻撃の脅威、自民党が対策プロジェクト設置を政府に要請</a></h2>
+      <p class="summary">高度化するAIによるサイバー攻撃の脅威に対し、自民党は4月20日、セキュリティ対策を強化する省庁横断のプロジェクト設置を政府に要請した。金融システムへの対策を皮切りにエネルギー、通信など重要インフラの対策に枠組みを広げることを求めた。今後、</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://zenn.dev/lv/articles/302bf552110e67" target="_blank" rel="noopener noreferrer">Claude Codeユーザーのためのプロンプトキャッシュ入門</a></h2>
+      <p class="summary">はじめに
 2026年2月20日に、Thariq氏がXで「Lessons from Building Claude Code: Prompt Caching Is Everything 」というタイトルの記事を公開し、話題になりました。
-https://x.com/trq212/status/2024574133011673516
-それを踏まえて、この記事では、Claude Codeを日常的に使って</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-21 01:12</span>
-            </div>
-            <h2><a href="https://qiita.com/take-yoda/items/00f05b0b517ee3a7c427?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">Claude Code実行中にターミナルを閉じても大丈夫にする方法（tmux）</a></h2>
-            <p class="summary">株式会社ブレインパッドプロダクトユニットでRtoaster GenAIの開発をしている依田です。
+ht</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news076.html" target="_blank" rel="noopener noreferrer">ソニーの“着るエアコン”に新たな「PRO」モデル登場　「シリーズ史上最強の冷却」うたう</a></h2>
+      <p class="summary">ソニーサーモテクノロジーは21日、“着るエアコン”の新フラグシップ「REON POCKET PRO Plus」を発売した。「シリーズ史上最強の冷却」をうたう。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news045.html" target="_blank" rel="noopener noreferrer">深酒で腸が荒れるメカニズム、米国チームが研究報告　「たまになら大丈夫」……ではない？</a></h2>
+      <p class="summary">米ベス・イスラエル・ディーコネス医療センターなどに所属する研究者らが2025年11月に発表した論文「Unraveling the gastrointestinal tract’s response to alcohol binges: Ne</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://qiita.com/take-yoda/items/00f05b0b517ee3a7c427?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">Claude Code実行中にターミナルを閉じても大丈夫にする方法（tmux）</a></h2>
+      <p class="summary">株式会社ブレインパッドプロダクトユニットでRtoaster GenAIの開発をしている依田です。
 今回は「Claude Codeを使うならtmuxを組み合わせると便利」という話を、Ghosttyでの実演つきでお伝えします。
 
 はじめに
-Claude Codeに長時間かかるタ...</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-20 23:35</span>
-            </div>
-            <h2><a href="https://www.youtube.com/watch?v=h6GWikWlAQA" target="_blank" rel="noopener">Making RAM at Home [video]</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47842569">Comments</a></p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-20 23:15</span>
-            </div>
-            <h2><a href="https://zenn.dev/microsoft/articles/2a952ed44e3873" target="_blank" rel="noopener">AIスクラムチームは嘘をつく</a></h2>
-            <p class="summary">はじめに
-AIエージェントにはハルシネーションという恐ろしい特性があることは皆様ご存じかと思います。それっぽい適当なことを言ったりするあれです。私が運営しているAIだけで自律的にスクラムを回しているAIチームもその例外ではありません。（AIスクラムチームの詳細は以下のシリーズ記事をご覧ください。）
-https://zenn.dev/microsoft/articles/6576552d9c4f45</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-20 18:24</span>
-            </div>
-            <h2><a href="https://github.blog/news-insights/company-news/changes-to-github-copilot-individual-plans/" target="_blank" rel="noopener">Changes to GitHub Copilot individual plans</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47838508">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-20 15:21</span>
-            </div>
-            <h2><a href="https://asteriskmag.com/issues/14/the-mystery-in-the-medicine-cabinet" target="_blank" rel="noopener">Acetaminophen vs. ibuprofen</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47835635">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-20 11:18</span>
-            </div>
-            <h2><a href="https://zknill.io/posts/all-your-agents-are-going-async/" target="_blank" rel="noopener">All your agents are going async</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47832720">Comments</a></p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-20 09:55</span>
-            </div>
-            <h2><a href="https://qiita.com/wan-code/items/baae3ea02fb98f642ba8?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">n8nで植物の水やりリマインドBOTを作ってみた（Discord連携）</a></h2>
-            <p class="summary">はじめに
+Cl</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/gemini-in-chrome?utm_source=feed" target="_blank" rel="noopener noreferrer">Gemini in Chromeが日本でも使用可能に</a></h2>
+      <p class="summary">Googleは2026年4月21日、WebブラウザGoogle Chromeに直接組み込まれたAIアシスタントGeminiを使うことができる「Gemini in Chrome」の機能を日本を含む複数地域向けに拡大して提供することを発表した。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月21日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news067.html" target="_blank" rel="noopener noreferrer">AmazonがAnthropicへの出資を最大330億ドルに拡大　AWSで「Claude Platform」利用可能に</a></h2>
+      <p class="summary">AmazonとAnthropicは戦略的提携を拡大し、Amazonの出資総額は最大330億ドルに達する。AnthropicはAWSに1000億ドル以上を支出する契約を締結。最新AIチップ「Trainium3」を含む大規模な計算資源を確保し、</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/mysql-rcn0269?utm_source=feed" target="_blank" rel="noopener noreferrer">第269回　SUPER権限のその後 ――MySQL 8.4/9.x時代の権限設計を見直す</a></h2>
+      <p class="summary">MySQLの管理者権限といえば、やはりSUPERを思い浮かべる方が多いのではないかと思います。</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://zenn.dev/microsoft/articles/2a952ed44e3873" target="_blank" rel="noopener noreferrer">AIスクラムチームは嘘をつく</a></h2>
+      <p class="summary">はじめに
+AIエージェントにはハルシネーションという恐ろしい特性があることは皆様ご存じかと思います。それっぽい適当なことを言ったりするあれです。私が運営しているAIだけで自律的にスクラムを回しているAIチームもその例外ではありません。（AI</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/21/news060.html" target="_blank" rel="noopener noreferrer">スクエニ、「FF XIV」めぐるハラスメント行為で動画投稿者を特定、和解　すでに当該アカウントは削除</a></h2>
+      <p class="summary">スクウェア・エニックスは20日、「ファイナルファンタジーXIV」関係者の社会的評価を落とす内容の動画を投稿した人物を特定し、協議によって和解したと発表した。</p>
+    </article>
+    <article data-source="ITmedia">
+      <div class="meta">
+        <span class="source-tag" style="background:#fce4ec;color:#c62828">ITmedia</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://www.itmedia.co.jp/news/articles/2604/20/news026.html" target="_blank" rel="noopener noreferrer">「Axios」にとどまらないオープンソース攻撃　信頼を悪用するだましの手口</a></h2>
+      <p class="summary">オープンソースのJavaScript HTTPクライアント「Axios」に不正なコードが仕込まれたサプライチェーン攻撃。発端となったソーシャルエンジニアリングの手口が明らかになったことで、標的はAxiosにとどまらず、オープンソースエコシス</p>
+    </article>
+    <article data-source="はてなブックマーク">
+      <div class="meta">
+        <span class="source-tag" style="background:#fff3e0;color:#e65100">はてなブックマーク</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://zenn.dev/pdfractal/articles/7769297acf47a3" target="_blank" rel="noopener noreferrer">なぜ、「プログラマーの三大美徳」は日本でばかり有名なのか？</a></h2>
+      <p class="summary">はじめに プログラマーの三大美徳は、ラリー・ウォールが Perl の文化とともに提示した有名な言い回しですが、日本ではそれが単なる Perl の格言にとどまらず、広くエンジニア一般の心得として知られるようになりました。現在の Perl 公式</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://qiita.com/wan-code/items/baae3ea02fb98f642ba8?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">n8nで植物の水やりリマインドBOTを作ってみた（Discord連携）</a></h2>
+      <p class="summary">はじめに
 植物って気づいたら水やり忘れませんか？
 
 忙しいとつい忘れる
@@ -495,292 +639,324 @@ https://zenn.dev/microsoft/articles/6576552d9c4f45</p>
 いつ水やったか分からなくなる
 
 そこで今回は、n8n + Discord + Data Tableを使って
-「水やり管理を自動化するBOT」を作りました。
-
-作ったもの
-機能一覧...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-20 09:23</span>
-            </div>
-            <h2><a href="https://qiita.com/kamome_susume/items/3b9b18e7e54f15721837?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">Claude Codeで開発を自動化するSkills 5選</a></h2>
-            <p class="summary">「Claude Codeを使い始めたけど、毎回同じような指示をプロンプトに書いている気がする…」と感じていませんか？
-Claude Codeは素のままでも強力ですが、Skillsを使うことで繰り返しの作業を自動化し、開発のルーティンをまるごとコマンド一発に変えることができま...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-20 09:00</span>
-            </div>
-            <h2><a href="https://zenn.dev/atamaplus/articles/9df0ac2b3b3462" target="_blank" rel="noopener">TypeScriptで配列引数の要素に応じて返り値の型を変える4つの方法</a></h2>
-            <p class="summary">はじめに
+「水やり管理を自動化するBOT」を作り</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://qiita.com/kamome_susume/items/3b9b18e7e54f15721837?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">Claude Codeで開発を自動化するSkills 5選</a></h2>
+      <p class="summary">「Claude Codeを使い始めたけど、毎回同じような指示をプロンプトに書いている気がする…」と感じていませんか？
+Claude Codeは素のままでも強力ですが、Skillsを使うことで繰り返しの作業を自動化し、開発のルーティンをまるご</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/cloudflare-isitagentready.com?utm_source=feed" target="_blank" rel="noopener noreferrer">Cloudflare、WebサイトのAIエージェント対応を診断する「isitagentready.com」を公開</a></h2>
+      <p class="summary">Cloudflareは2026年4月17日、WebサイトのAIエージェント対応状況を診断するWebツール「isitagentready.com」を公開した。</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://zenn.dev/atamaplus/articles/9df0ac2b3b3462" target="_blank" rel="noopener noreferrer">TypeScriptで配列引数の要素に応じて返り値の型を変える4つの方法</a></h2>
+      <p class="summary">はじめに
 TypeScript で、「配列引数の要素に応じて返り値の型を変えたい」という場面に遭遇しました。
-const admin = fetchByRoles(["admin"]);
+const admin = fetchByRoles([&quot;admin&quot;]);
 // AdminData に絞り込まれてほしい
 
-const mixed = fetchByRoles(["admin", "guest"]);
-// AdminData | GuestData になってほしい
-</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-20 07:23</span>
-            </div>
-            <h2><a href="https://qiita.com/hiroki_notes/items/3de8503e5f5f9e33e2d9?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">React初心者がつまずきやすいJavaScript記法をわかりやすく整理してみた</a></h2>
-            <p class="summary">React を触っていると、JavaScript のさまざまな書き方が自然と登場します。
+c</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://qiita.com/hiroki_notes/items/3de8503e5f5f9e33e2d9?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">React初心者がつまずきやすいJavaScript記法をわかりやすく整理してみた</a></h2>
+      <p class="summary">React を触っていると、JavaScript のさまざまな書き方が自然と登場します。
 しかし、JavaScript の記法をしっかり理解していないと、React のコードが「なんとなく」でしか読めなくなってしまいます。
-この記事では、React で頻出する JavaSc...</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-20 05:28</span>
-            </div>
-            <h2><a href="https://qiita.com/hitomin_poke/items/9d91ff5ad51001237a02?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">一人で悩み続けてしまう新人エンジニアへ。その時間、無駄かもしれません。</a></h2>
-            <p class="summary">はじめまして。株式会社PRUMでエンジニアをしている人見です。
+この記事では、R</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://qiita.com/hitomin_poke/items/9d91ff5ad51001237a02?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">一人で悩み続けてしまう新人エンジニアへ。その時間、無駄かもしれません。</a></h2>
+      <p class="summary">はじめまして。株式会社PRUMでエンジニアをしている人見です。
 日々、プログラミング学習や実務の中で、つまずきやすいポイントや考え方を整理して発信しています。
 PRUMについて気になった方は、コーポレートサイトもぜひご覧ください。
-▶コーポレートサイト
-
-一人で悩み続けてし...</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-20 05:21</span>
-            </div>
-            <h2><a href="https://www.tanumworldheritage.se/rock-carving-facts/?lang=en" target="_blank" rel="noopener">Rock carving facts – Tanum Sweden</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47830633">Comments</a></p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-20 04:10</span>
-            </div>
-            <h2><a href="https://zenn.dev/acntechjp/articles/da229b919d512a" target="_blank" rel="noopener">「いきなり作る」前に考えたいCI/CDパイプラインの設計と運用プラクティス</a></h2>
-            <p class="summary">執筆者：Hajime Fujii
+▶コーポ</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://zenn.dev/acntechjp/articles/da229b919d512a" target="_blank" rel="noopener noreferrer">「いきなり作る」前に考えたいCI/CDパイプラインの設計と運用プラクティス</a></h2>
+      <p class="summary">執筆者：Hajime Fujii
 
  前置き・記載背景
 昨今CI/CD実践に向けて既存の情報を調べてみると、具体的な実装例や構築手順、ツールの紹介は多くみられます。
-一方、CI/CDパイプラインを「構築・導入・運用」するプロセスをフレームワーク化したり、一定の設計手法まで踏み込んで考えたものはあまり多くないように思います。
-業務で、CI/CDパイプラインの構築に取り掛かる機会がありましたが、ともす</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-20 02:20</span>
-            </div>
-            <h2><a href="https://zenn.dev/coconala/articles/9b1d05be257b90" target="_blank" rel="noopener">言語化に苦しむ全ての人(エンジニア？)へ。今日から変わるコミュニケーション術補遺</a></h2>
-            <p class="summary">「私たちがストーリーと呼んでいるものは、しばしば事件である」とはE.M.フォースター等のナラトロジー分野でよく言われることです。
+一方、CI/CDパイプラインを「構築・導入・運用」するプロセスをフレームワ</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/blender-basics-75?utm_source=feed" target="_blank" rel="noopener noreferrer">Blenderで頂点を思うように動かしたりオブジェクトを平面にぴったりくっつけてみよう</a></h2>
+      <p class="summary">第75回目は、Blenderで作成したオブジェクトの頂点をスライドさせたり、一直線上に並べる方法を見ていきます。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/gh-skill?utm_source=feed" target="_blank" rel="noopener noreferrer">GitHub CLIでエージェントスキルを管理する「gh skill」をパブリックプレビューで公開</a></h2>
+      <p class="summary">GitHubは2026年4月16日、GitHub CLIでエージェントスキルの検索、プレビュー、インストール、更新、公開を行える新コマンドgh skillをパブリックプレビューとして公開した。</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://zenn.dev/coconala/articles/9b1d05be257b90" target="_blank" rel="noopener noreferrer">言語化に苦しむ全ての人(エンジニア？)へ。今日から変わるコミュニケーション術補遺</a></h2>
+      <p class="summary">「私たちがストーリーと呼んでいるものは、しばしば事件である」とはE.M.フォースター等のナラトロジー分野でよく言われることです。
 ココナラのDevOpsグループCREチームのy.s.（@inu_no_hou）です。
-言語化という言葉があまり好きではなく、日頃使わないようにしているのですが、その理由は概念の網の目が荒すぎて、多くの場合役に立たないからです。言葉とは一面においてツールであり、ツールが使</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-20 01:16</span>
-            </div>
-            <h2><a href="https://qiita.com/shibuya-ys/items/fb94b54ef5f9a7df59fc?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【Obsidian】作図が簡単にできるプラグイン「Excalidraw」の紹介</a></h2>
-            <p class="summary">はじめに
+言語化という言葉があまり</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/ollama-copilot-cli?utm_source=feed" target="_blank" rel="noopener noreferrer">Ollama、GitHub Copilot CLIをサポート</a></h2>
+      <p class="summary">Ollamaは2026年4月19日、最新バージョンのOllama 0.21でGitHub Copilot CLIをサポートしたことを発表した。</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月20日</span>
+      </div>
+      <h2><a href="https://qiita.com/shibuya-ys/items/fb94b54ef5f9a7df59fc?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【Obsidian】作図が簡単にできるプラグイン「Excalidraw」の紹介</a></h2>
+      <p class="summary">はじめに
 図を描くことは、物事の理解を深めたり、思考を整理して誰かに説明したりする上で非常に便利です。しかし、「メモ書きなどで作図ツールを使うのはめんどくさい」と感じた経験がある方も多いのではないでしょうか
-そんな方におすすめなのが、Obsidianのコミュニティプラグイ...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 23:40</span>
-            </div>
-            <h2><a href="https://zenn.dev/headwaters/articles/c4a62943ec50aa" target="_blank" rel="noopener">環境が汚れるのが嫌なのでPodmanコンテナの中でSteamを動かした</a></h2>
-            <p class="summary">はじめに
+そんな方におすすめなのが、Obs</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/headwaters/articles/c4a62943ec50aa" target="_blank" rel="noopener noreferrer">環境が汚れるのが嫌なのでPodmanコンテナの中でSteamを動かした</a></h2>
+      <p class="summary">はじめに
 Linuxでゲームをするとき、Steamをインストールすると32bitライブラリやら依存パッケージやらがドッと入ってきて、システムが少しずつ汚れていく。
 「ゲームは遊びたい、でも環境は汚したくない」
-そんなわがままを叶えるために、rootless Podmanコンテナの中でSteamを動かす仕組みを作った。
-コンテナを消せばSteamの痕跡はゼロ。データも1つのディレクトリに閉じ込めてあ</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-19 23:23</span>
-            </div>
-            <h2><a href="https://qiita.com/ryu-ki/items/bca0ee8f15a13dfd8cfa?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">【Claude Design】見せてもらおうか Claude Designの性能とやらを</a></h2>
-            <p class="summary">はじめに
+そんなわがままを叶えるために、</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://qiita.com/ryu-ki/items/bca0ee8f15a13dfd8cfa?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">【Claude Design】見せてもらおうか Claude Designの性能とやらを</a></h2>
+      <p class="summary">はじめに
 2026/4/17 に Anthropic から Claude Design がリリースされました。
 
-Claude と会話しながらデザインやプロトタイプ、スライド、1枚ものの資料などを作れるサービスだそうです。現在は Claude Opus 4.7 を基盤...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 23:00</span>
-            </div>
-            <h2><a href="https://zenn.dev/tan_go238/articles/002437e923913c" target="_blank" rel="noopener">AIにコーディングを全任せした結果、ドメイン設計に辿り着いた話</a></h2>
-            <p class="summary">はじめに：AIで無双できると思っていた時期がありました
+Claude と会話しながらデザインやプロトタイプ、スライド、1枚ものの資料などを作れるサービスだそうです。現在は Claud</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/tan_go238/articles/002437e923913c" target="_blank" rel="noopener noreferrer">AIにコーディングを全任せした結果、ドメイン設計に辿り着いた話</a></h2>
+      <p class="summary">はじめに：AIで無双できると思っていた時期がありました
 最近、AIを使ったコーディングがすっかり当たり前になってきました。
 AIに指示を出せばコードが組み上がり、開発効率が飛躍的に上がると感じています。
-私自身も、要件定義から実装まで一気通貫でAIに任せる開発スタイルを試してきた結論を先にお伝えします。
-!
-AIコーディングを突き詰めると、人間が認知できる仕様の数というボトルネックに辿り着き、「ド</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 23:00</span>
-            </div>
-            <h2><a href="https://zenn.dev/aeyesec/articles/32fb05ddd1c3f7" target="_blank" rel="noopener">1日で作るサプライチェーン攻撃対策！運用死しないコスト「ほぼゼロ」の通信監視</a></h2>
-            <p class="summary">1. はじめに
+私自身も、要件定義から実装まで一気通</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/aeyesec/articles/32fb05ddd1c3f7" target="_blank" rel="noopener noreferrer">1日で作るサプライチェーン攻撃対策！運用死しないコスト「ほぼゼロ」の通信監視</a></h2>
+      <p class="summary">1. はじめに
 こんにちは！はるぷです！サプライチェーン攻撃の対策してますか？？
-最近、サプライチェーン攻撃の話題が出るたび、「うちのサービスは本当に大丈夫だろうか」と社内がざわつくことはありませんか。依存ライブラリの棚卸しやSBOM整備に取り組んでいても、入り口が多すぎて全体を把握するのは至難の業です。
-加えて、社内外から「サプライチェーン攻撃対策大丈夫ですよね？」と聞かれたとき、担当者として胸</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-19 22:39</span>
-            </div>
-            <h2><a href="https://qiita.com/yuji-arakawa/items/da4d5eec968b92ebc26d?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">記憶を持たないLLMの記憶 ― コンテキスト/メモリー/ハーネスエンジニアリング入門の前に</a></h2>
-            <p class="summary">はじめに
+最近、サプライチェーン攻撃の話題が出るたび、「うちのサービスは本当に大丈夫だろうか」と社内がざわつくことはありませんか。依存ライブラリの棚卸しやSBOM整備に</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://qiita.com/yuji-arakawa/items/da4d5eec968b92ebc26d?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">記憶を持たないLLMの記憶 ― コンテキスト/メモリー/ハーネスエンジニアリング入門の前に</a></h2>
+      <p class="summary">はじめに
 
 記憶を持たないはずのAIが、私を覚えている
-LLM自体は記憶を持ちません。直前の会話で何を話したかを本当は「覚えていない」はずなのです。それなのに、ChatGPTのようなチャットアプリや最近のエージェントと会話すると、まるで相手が自分を覚えていてくれて、記憶...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 22:29</span>
-            </div>
-            <h2><a href="https://zenn.dev/nekoai_lab/articles/6b876ab524de84" target="_blank" rel="noopener">Cursorで爆速開発、でもセキュリティは爆速で崩壊していた</a></h2>
-            <p class="summary">TL;DR
+LLM自体は記憶を持ちません。直前の会話で何を話したかを本当は「覚えていない」はずなのです。それなのに、ChatGPTのようなチャットアプリや最近のエージェントと会話すると、まるで相手</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/nekoai_lab/articles/6b876ab524de84" target="_blank" rel="noopener noreferrer">Cursorで爆速開発、でもセキュリティは爆速で崩壊していた</a></h2>
+      <p class="summary">TL;DR
 
 AIコーディングはコード生産速度を上げるが、レビュー・セキュリティのボトルネックも同時に増大する
 修正パッチのタイミングが一番危ない。最初の緊張感はAIには引き継がれない
-非エンジニアがコードを読むのは現実的じゃない。だからセキュリティエンジニアをSKILLに憑依させた
-SKILL.mdをGitHubに公開したので持ってけ
-
-
-
- 他人事じゃなかった
-先日、NYTにこんな記事が出た。</p>
-        </article>
-        <article data-source="Qiita">
-            <div class="meta">
-                <span class="source">Qiita</span>
-                <span class="date">2026-04-19 22:05</span>
-            </div>
-            <h2><a href="https://qiita.com/tamepicomaru/items/8f9b238ae28e380e6029?utm_campaign=popular_items&utm_medium=feed&utm_source=popular_items" target="_blank" rel="noopener">Claude Codeの利用状況をチームで可視化するダッシュボードをOSSで公開しました</a></h2>
-            <p class="summary">株式会社AgenticSec のソフトウェアエンジニアの爲西です。
-日々の開発で Claude Code を使うほど、トークンやコストは数字で追いやすい一方、スキル・MCP・サブエージェントがチームにどれだけ根付いているかは、個々のセッションを覗かないと把握しづらい——とい...</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 13:52</span>
-            </div>
-            <h2><a href="https://zenn.dev/youjinfox/articles/bb3facc650adb1" target="_blank" rel="noopener">AI エージェント並列化で自分の脳が限界になったので Maestri を試した</a></h2>
-            <p class="summary">はじめに
+非エンジニアがコードを読むのは現実的じゃない。だからセ</p>
+    </article>
+    <article data-source="Qiita">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#55c500">Qiita</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://qiita.com/tamepicomaru/items/8f9b238ae28e380e6029?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items" target="_blank" rel="noopener noreferrer">Claude Codeの利用状況をチームで可視化するダッシュボードをOSSで公開しました</a></h2>
+      <p class="summary">株式会社AgenticSec のソフトウェアエンジニアの爲西です。
+日々の開発で Claude Code を使うほど、トークンやコストは数字で追いやすい一方、スキル・MCP・サブエージェントがチームにどれだけ根付いているかは、個々のセッショ</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/youjinfox/articles/bb3facc650adb1" target="_blank" rel="noopener noreferrer">AI エージェント並列化で自分の脳が限界になったので Maestri を試した</a></h2>
+      <p class="summary">はじめに
 AI コーディングエージェントの並列運用を始めて、すぐに気づいたことがある。ボトルネックはもう、コードを書く速度じゃない。自分の脳だ。
-Claude Code を 3 つ、4 つと同時に走らせる。それぞれが別々のタスクを猛烈な速度で片付けていく。でも、ふと顔を上げると——今どのターミナルが何をやっていて、どれが終わっていて、どれが詰まっているのかが、わからない。画面を切り替えるたびに文脈</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-19 11:53</span>
-            </div>
-            <h2><a href="https://spectrum.ieee.org/smart-contact-lens-glaucoma-microfluidics" target="_blank" rel="noopener">Contact Lens Uses Microfluidics to Monitor and Treat Glaucoma</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47823654">Comments</a></p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 08:04</span>
-            </div>
-            <h2><a href="https://zenn.dev/mizchi/articles/empirical-prompt-tuning" target="_blank" rel="noopener">プロンプトの再現性をAI に自動チューニングさせる方法 ~ 暗黙知を排除する</a></h2>
-            <p class="summary">AI の技術記事は食傷気味なんですが、さすがにこれは効くと思ったパターンを見つけたので紹介します。
+Claude Code を 3 つ、4 つと同時に走らせる。それぞれが別々のタスクを猛烈な速度</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/mizchi/articles/empirical-prompt-tuning" target="_blank" rel="noopener noreferrer">プロンプトの再現性をAI に自動チューニングさせる方法 ~ 暗黙知を排除する</a></h2>
+      <p class="summary">AI の技術記事は食傷気味なんですが、さすがにこれは効くと思ったパターンを見つけたので紹介します。
 
  tl;dr
 
-プロンプト (skill / slash command) を書いた直後は「これで伝わるはず！」と思うのに、別のセッションで使うと暗黙知が不足していて、再現性がなくなる
-思い込みは当人に修正できないバイアスなので、別の AI に実際にやらせて詰まった箇所をレポートさせる
-これを繰り</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 07:20</span>
-            </div>
-            <h2><a href="https://zenn.dev/catatsuy/articles/2ac24bccb4b7d1" target="_blank" rel="noopener">Let’s Encryptの短期証明書はかなり厳しいのでARI対応クライアントを使った方がよい</a></h2>
-            <p class="summary">Let’s Encryptの短期証明書は、90日証明書の延長くらいの感覚で入るとかなり厳しいです。
-サブドメインを含む複数の証明書を短い間隔で発行・更新する構成では、証明書発行まわりのレート制限に引っかかりやすくなります。短期証明書では更新回数が増えるので、その影響がかなり表面化しやすくなります。
-https://letsencrypt.org/docs/rate-limits/
-
- まずステージ</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 05:56</span>
-            </div>
-            <h2><a href="https://zenn.dev/usamik26/articles/jj-version-control" target="_blank" rel="noopener">バージョン管理システム Jujutsu</a></h2>
-            <p class="summary">Jujutsu（jj）は、近年注目を集めている新しいバージョン管理システムです。この記事では、Gitを使ったことがある人向けにjjの特徴をいくつか紹介します。
+プロンプト (skill / slash command) を書いた直後は「これで伝わるはず！」と思うのに、別のセッション</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/catatsuy/articles/2ac24bccb4b7d1" target="_blank" rel="noopener noreferrer">Let’s Encryptの短期証明書はかなり厳しいのでARI対応クライアントを使った方がよい</a></h2>
+      <p class="summary">Let’s Encryptの短期証明書は、90日証明書の延長くらいの感覚で入るとかなり厳しいです。
+サブドメインを含む複数の証明書を短い間隔で発行・更新する構成では、証明書発行まわりのレート制限に引っかかりやすくなります。短期証明書では更新</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/usamik26/articles/jj-version-control" target="_blank" rel="noopener noreferrer">バージョン管理システム Jujutsu</a></h2>
+      <p class="summary">Jujutsu（jj）は、近年注目を集めている新しいバージョン管理システムです。この記事では、Gitを使ったことがある人向けにjjの特徴をいくつか紹介します。
 
  バージョン管理システムとは
-バージョン管理システムとは、ファイルの変更履歴を記録・管理するためのシステムです。ソフトウェア開発において、ソースコードの変更を追跡し、過去の状態に戻したり、複数人で同じコードベースを編集したりすることを可能</p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 05:13</span>
-            </div>
-            <h2><a href="https://zenn.dev/ncdc/articles/ee35ef7974d279" target="_blank" rel="noopener">管理者目線でGitHub Copilotの方が優れていること</a></h2>
-            <p class="summary">はじめに
+バージョン管理システムとは、ファイルの変更履歴を</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/ncdc/articles/ee35ef7974d279" target="_blank" rel="noopener noreferrer">管理者目線でGitHub Copilotの方が優れていること</a></h2>
+      <p class="summary">はじめに
 この記事では、GitHub Copilotが組織として導入・管理しやすい理由を、主にClaude Codeと比較しながら、管理者の目線で説明します。
-はじめに白状しておくと、私は現在GitHub Copilotを使っていません。ClaudeのTeamプランでClaude Codeが使えるようになったとき、1日で社内稟議を通して即導入しました。そのままClaudeに移行して、自分の分のGi</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-19 04:41</span>
-            </div>
-            <h2><a href="https://fitzgen.com/2024/02/06/safe-gc.html" target="_blank" rel="noopener">Garbage Collection Without Unsafe Code</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47821853">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-19 04:28</span>
-            </div>
-            <h2><a href="https://jasoneckert.github.io/myblog/server-2025-arm64/" target="_blank" rel="noopener">Windows Server 2025 Runs Better on ARM</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47821801">Comments</a></p>
-        </article>
-        <article data-source="Zenn">
-            <div class="meta">
-                <span class="source">Zenn</span>
-                <span class="date">2026-04-19 02:03</span>
-            </div>
-            <h2><a href="https://zenn.dev/higakijin/articles/730a734b6b9009" target="_blank" rel="noopener">AI時代にわざわざRuby on Railsを使う理由</a></h2>
-            <p class="summary">こんにちは、フリーランスとして働いてるハルクです
+はじめに白状しておくと、私は現在GitHub Copilotを使っていません。C</p>
+    </article>
+    <article data-source="Zenn">
+      <div class="meta">
+        <span class="source-tag" style="background:#e8f5e9;color:#2e7d32">Zenn</span>
+        <span class="date">2026年4月19日</span>
+      </div>
+      <h2><a href="https://zenn.dev/higakijin/articles/730a734b6b9009" target="_blank" rel="noopener noreferrer">AI時代にわざわざRuby on Railsを使う理由</a></h2>
+      <p class="summary">こんにちは、フリーランスとして働いてるハルクです
 最近自分の会社を立ち上げたことで、「AI時代にフィットしたwebフレームワークとは何か」を考えるようになりました。
-私はRubyでコンピューターサイエンスの世界に入ってから、最近流行りのTypescript(Next.js, Nuxt.js)、Go、Rustなどを使ってサイドプロジェクトを立ち上げてきましたが、
-結局のところ、RubyやRuby o</p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-19 00:34</span>
-            </div>
-            <h2><a href="https://github.com/google-deepmind/mujoco" target="_blank" rel="noopener">MuJoCo – Advanced Physics Simulation</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47820791">Comments</a></p>
-        </article>
-        <article data-source="Hacker News">
-            <div class="meta">
-                <span class="source">Hacker News</span>
-                <span class="date">2026-04-18 10:53</span>
-            </div>
-            <h2><a href="https://thinkygames.com/features/10-years-of-grilling-stephens-sausage-roll-remains-one-of-the-most-influential-puzzle-games-ever-created/" target="_blank" rel="noopener">Stephen's Sausage Roll remains one of the most influential puzzle games</a></h2>
-            <p class="summary"><a href="https://news.ycombinator.com/item?id=47814874">Comments</a></p>
-        </article></main>
+私はRubyでコンピューターサイエンスの世界に入ってから、最近流行りのTy</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月17日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/vscode-integrated-browser-and-agents-app?utm_source=feed" target="_blank" rel="noopener noreferrer">VS Code 1.116リリース、統合ブラウザの起動方法を追加・Insiders版のVS Code Agentsアプリも改善</a></h2>
+      <p class="summary">この記事では、開発が進んできた統合ブラウザ機能と、「Visual Studio Code Agents - Insiders」を主に取り上げる。後者は現在のところVS Code Insidersでのみ利用でき、VS Code本体とは別アプリ</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月17日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/codex-for-everything?utm_source=feed" target="_blank" rel="noopener noreferrer">OpenAI、Codexを大幅アップデート ―アプリ内ブラウザ、過去スレッドを元にした自動実行や“メモリ機能”を装備、“ほぼあらゆることができる”AIエージェントに</a></h2>
+      <p class="summary">OpenAIは2026年4月16日、Codexのメジャーアップデートをリリースした。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月17日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/admin/clip/01/ubuntu-topics/202604/17?utm_source=feed" target="_blank" rel="noopener noreferrer">Ubuntu 26.04（resolute）の開発; リリースまで一週間、各種インフラステータスの公開とリニューアル</a></h2>
+      <p class="summary">resolute（Ubuntu 26.04 LTS）のリリースまであと一週間となりました。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月16日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/openai-agents-sdk-updates?utm_source=feed" target="_blank" rel="noopener noreferrer">OpenAI、Agents SDKをアップデート。サンドボックス対応やメモリ制御を追加</a></h2>
+      <p class="summary">OpenAIは2026年4月15日、エージェントを開発するためのフレームワークである「Agents SDK」のPython版の大規模なアップデートを発表した。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月16日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/gemini-3-1-flash-tts?utm_source=feed" target="_blank" rel="noopener noreferrer">Google、70以上の言語に対応、表現力豊かな音声生成が可能なスピーチモデルGemini 3.1 Flash TTSをリリース</a></h2>
+      <p class="summary">Googleは2026年4月15日、テキスト読み上げモデルの新バージョン「Gemini 3.1 Flash TTS」をリリースした。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月16日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/android-weekly-topics-260416?utm_source=feed" target="_blank" rel="noopener noreferrer">Android Runtimeがアップデート！ MessageQueue刷新と世代別GCの真価</a></h2>
+      <p class="summary">2026年も4月に入り、Google I/Oの足音が近づいてきました。今週は、開発者版の検証を通じて明らかになった、Android 17で「ART（Android Runtime）」が大幅に進化しているので、今回はこれにフォーカスします。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月16日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/daily-linux-260416?utm_source=feed" target="_blank" rel="noopener noreferrer">Linus、i486サポート削除に向けてパッチのマージを開始 ―進むレガシーからの脱却</a></h2>
+      <p class="summary">Linus Torvaldsは4月14日、カーネルメンテナーのIngo Molnar（Red Hat所属）が提出したLinux 7.1に向けたパッチ「x86-platform-2026-04-13」をマージした。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月15日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/cloudflare-mesh?utm_source=feed" target="_blank" rel="noopener noreferrer">Cloudflare、ユーザー・ノード・AIエージェントをつなぐプライベートネットワークCloudflare Meshを発表</a></h2>
+      <p class="summary">Cloudflareは2026年4月14日、プライベートネットワークを相互接続し、AIエージェントなどに安全なアクセスを提供する「Cloudflare Mesh」を発表した。</p>
+    </article>
+    <article data-source="gihyo.jp">
+      <div class="meta">
+        <span class="source-tag" style="background:#e3f2fd;color:#1565c0">gihyo.jp</span>
+        <span class="date">2026年4月15日</span>
+      </div>
+      <h2><a href="https://gihyo.jp/article/2026/04/openai-gpt-5.4-cyber?utm_source=feed" target="_blank" rel="noopener noreferrer">OpenAI、Trusted Access for Cyberを拡張、上位ティアでGPT-5.4-Cyber提供へ</a></h2>
+      <p class="summary">OpenAIは2026年4月14日、サイバー防衛に携わる個人やチーム向けプログラム「Trusted Access for Cyber（TAC）」の拡張を発表した。</p>
+    </article></main>
 <script>
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {

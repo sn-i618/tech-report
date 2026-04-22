@@ -2,7 +2,7 @@ name: Update Tech Feed
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # 6時間ごとに実行
+    - cron: "0 23 * * *"  # 毎日日本時間8時 (UTC 23時)
   workflow_dispatch:         # 手動実行も可能
 
 permissions:
