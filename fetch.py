@@ -1,7 +1,7 @@
 import feedparser
 import re
 import html as html_module
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 FEEDS = [
@@ -104,10 +104,8 @@ def fetch_articles():
 
 
 def generate_html(articles):
-    jst_offset = 9 * 3600
-    updated_at = datetime.fromtimestamp(
-        datetime.now(timezone.utc).timestamp() + jst_offset
-    ).strftime("%Y年%-m月%-d日 %H:%M")
+    JST = timezone(timedelta(hours=9))
+    updated_at = datetime.now(JST).strftime("%Y年%-m月%-d日 %H:%M")
 
     sources = sorted(set(a["source"] for a in articles))
     topics = ["インフラ", "モバイル", "フロントエンド", "AI/ML", "セキュリティ"]
