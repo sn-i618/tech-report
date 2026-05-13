@@ -5,6 +5,7 @@ FEEDS = [
     {"name": "はてなブックマーク",  "url": "https://b.hatena.ne.jp/hotentry/it.rss",            "topic": None},
     {"name": "gihyo.jp",       "url": "https://gihyo.jp/feed/rss2",                         "topic": None},
     {"name": "ITmedia",        "url": "https://rss.itmedia.co.jp/rss/2.0/news_bursts.xml",  "topic": None},
+    {"name": "DeNA Engineering", "url": "https://engineering.dena.com/blog/categories/technology/index.xml", "topic": None},
     # インフラ
     {"name": "Zenn",  "url": "https://zenn.dev/topics/infrastructure/feed", "topic": "インフラ"},
     {"name": "Zenn",  "url": "https://zenn.dev/topics/kubernetes/feed",     "topic": "インフラ"},
@@ -37,7 +38,8 @@ SOURCE_COLORS = {
     "Qiita":        {"bg": "#e8f5e9", "text": "#55c500"},
     "はてなブックマーク": {"bg": "#fff3e0", "text": "#e65100"},
     "gihyo.jp":     {"bg": "#e3f2fd", "text": "#1565c0"},
-    "ITmedia":      {"bg": "#fce4ec", "text": "#c62828"},
+    "ITmedia":         {"bg": "#fce4ec", "text": "#c62828"},
+    "DeNA Engineering": {"bg": "#e8eaf6", "text": "#283593"},
 }
 
 TOPIC_COLORS = {
