@@ -34,9 +34,13 @@ def _build_articles(articles):
     return "\n".join(parts)
 
 
+_PINNED_LAST = {"DeNA Engineering"}
+
 def _build_source_buttons(sources):
     btns = ['<button class="filter-btn active" data-filter="source" data-value="all">すべて</button>']
-    for src in sorted(sources):
+    main = sorted(s for s in sources if s not in _PINNED_LAST)
+    tail = sorted(s for s in sources if s in _PINNED_LAST)
+    for src in main + tail:
         btns.append(f'<button class="filter-btn" data-filter="source" data-value="{src}">{src}</button>')
     return "".join(btns)
 
