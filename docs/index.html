@@ -38,6 +38,13 @@
   .summary { font-size: 0.81rem; color: #777; margin-top: 6px; line-height: 1.65; }
   .no-result { text-align: center; color: #aaa; padding: 48px 0; font-size: 0.9rem; }
 
+  #pagination { max-width: 800px; margin: 4px auto 24px; padding: 0 16px; display: flex; justify-content: center; align-items: center; gap: 4px; flex-wrap: wrap; }
+  #pagination button { background: #fff; border: 1px solid #ddd; color: #555; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; transition: all .15s; }
+  #pagination button:hover:not(:disabled) { border-color: #55c500; color: #55c500; }
+  #pagination button.pg-active { background: #55c500; border-color: #55c500; color: #fff; font-weight: 700; }
+  #pagination button:disabled { opacity: 0.35; cursor: default; }
+  #pagination .pg-ellipsis { color: #aaa; padding: 0 2px; font-size: 0.82rem; }
+
   @media (max-width: 600px) {
     header { padding: 0 16px; }
     .filter-section { padding: 10px 16px; }
@@ -48,7 +55,7 @@
 <body>
 <header>
   <span class="logo">Tech Report</span>
-  <span class="updated">更新: 2026年5月13日 19:35 JST</span>
+  <span class="updated">更新: 2026年5月13日 19:38 JST</span>
 </header>
 <div class="filter-section">
   <div>
@@ -3724,25 +3731,59 @@ IT 基盤部では、日々多くのサービスを支える MySQL を中心と�
   </article>
 </main>
 <p class="no-result" id="no-result" style="display:none">該当する記事がありません</p>
+<div id="pagination"></div>
 <script>
   const LS_SOURCE = 'tr_source';
   const LS_TOPIC  = 'tr_topic';
   const TOPIC_SOURCES = new Set(['all', 'Zenn', 'Qiita']);
+  const PAGE_SIZE = 10;
 
   let selectedSource = localStorage.getItem(LS_SOURCE) || 'all';
   let selectedTopic  = localStorage.getItem(LS_TOPIC)  || 'all';
+  let currentPage = 1;
 
   function applyFilters() {
-    const articles = document.querySelectorAll('article');
-    let visible = 0;
-    articles.forEach(a => {
+    const all = Array.from(document.querySelectorAll('article'));
+    const matched = all.filter(a => {
       const srcMatch   = selectedSource === 'all' || a.dataset.source === selectedSource;
       const topicMatch = selectedTopic  === 'all' || a.dataset.topic  === selectedTopic;
-      const show = srcMatch && topicMatch;
-      a.style.display = show ? '' : 'none';
-      if (show) visible++;
+      return srcMatch && topicMatch;
     });
-    document.getElementById('no-result').style.display = visible === 0 ? '' : 'none';
+
+    const totalPages = Math.max(1, Math.ceil(matched.length / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = 1;
+
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageSet = new Set(matched.slice(start, start + PAGE_SIZE));
+
+    all.forEach(a => { a.style.display = pageSet.has(a) ? '' : 'none'; });
+    document.getElementById('no-result').style.display = matched.length === 0 ? '' : 'none';
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    const pg = document.getElementById('pagination');
+    if (totalPages <= 1) { pg.innerHTML = ''; return; }
+
+    const pages = new Set([1, totalPages]);
+    for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) pages.add(i);
+    const sorted = Array.from(pages).sort((a, b) => a - b);
+
+    let html = `<button onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹ 前へ</button>`;
+    let prev = null;
+    for (const p of sorted) {
+      if (prev && p - prev > 1) html += '<span class="pg-ellipsis">…</span>';
+      html += `<button onclick="goPage(${p})" class="${p === currentPage ? 'pg-active' : ''}">${p}</button>`;
+      prev = p;
+    }
+    html += `<button onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>次へ ›</button>`;
+    pg.innerHTML = html;
+  }
+
+  function goPage(page) {
+    currentPage = page;
+    applyFilters();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function setActive(group, value) {
@@ -3781,6 +3822,7 @@ IT 基盤部では、日々多くのサービスを支える MySQL を中心と�
     localStorage.setItem(LS_SOURCE, selectedSource);
     setActive('source', selectedSource);
     updateTopicAvailability();
+    currentPage = 1;
     applyFilters();
   });
 
@@ -3790,6 +3832,7 @@ IT 基盤部では、日々多くのサービスを支える MySQL を中心と�
     selectedTopic = btn.dataset.value;
     localStorage.setItem(LS_TOPIC, selectedTopic);
     setActive('topic', selectedTopic);
+    currentPage = 1;
     applyFilters();
   });
 </script>
